@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Case, Value, When
 
 # Create your models here.
 
@@ -23,6 +24,16 @@ class Vehicle(models.Model):
     def can_start(self) -> bool:
         return self.vehicle_type.max_capacity >= self.passengers
 
+    def get_distribution(self) -> list:
+        if self.passengers == 2:
+            distribution = [[True,True],[False,False]]
+        elif self.passengers == 3:
+            distribution = [[True,True],[True,False]]
+        elif self.passengers == 4:
+            distribution = [[True,True],[True,True]]
+        else: 
+            distribution = [[True,False],[False,False]]
+        return distribution
 
 class Journey(models.Model):
     vehicle = models.ForeignKey(Vehicle, on_delete=models.PROTECT)
