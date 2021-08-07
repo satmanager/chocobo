@@ -25,3 +25,15 @@ class StartJourney:
 
     class CantStart(Exception):
         pass
+
+class StopJourney:
+    def __init__(self, repository: JourneyRepository, notifier: Notifier):
+        self.repository = repository
+        self.notifier = notifier
+
+    def set_params(self, journey: Journey) -> StopJourney:
+        self.journey = journey
+        return self
+
+    def execute(self) -> None:
+        return self.repository.stop_journey(self.journey)

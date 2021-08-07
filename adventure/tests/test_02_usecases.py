@@ -22,6 +22,9 @@ class MockJourneyRepository(repositories.JourneyRepository):
     def create_journey(self, vehicle) -> models.Journey:
         return models.Journey(vehicle=vehicle, start=timezone.now().date())
 
+    def create_journey(self, vehicle) -> models.Journey:
+        return models.Journey(vehicle=vehicle, start=timezone.now().date())
+
 
 class MockNotifier(notifiers.Notifier):
     def send_notifications(self, journey: models.Journey) -> None:
@@ -53,9 +56,19 @@ class TestStartJourney:
 
 
 class TestStopJourney:
-    @pytest.mark.skip  # Remove
+    #@pytest.mark.skip  # Remove
+    @pytest.mark.django_db
     def test_stop(self):
         # TODO: Implement a StopJourney Usecase
         # it takes a started journey as a parameter and sets an "end" value
         # then saves it to the database
-        pass
+        repo = usecases.JourneyRepository()
+        notifier = usecases.Notifier()
+        data = {"name": "Eddie", "passengers": 2}
+        startUsecase = usecases.StartJourney(repo, notifier).set_params(data)
+        bJourney = startUsecase.execute()        
+        stopUsecase = usecases.StopJourney(repo, notifier).set_params(bJourney)
+        stopUsecase.execute()
+
+        assert not bJourney.is_finished()
+        #pass
