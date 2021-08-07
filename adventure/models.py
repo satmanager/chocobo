@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Case, Value, When
+import re #Import for vehicle number_plate validation
 
 # Create your models here.
 
@@ -34,6 +34,8 @@ class Vehicle(models.Model):
         else: 
             distribution = [[True,False],[False,False]]
         return distribution
+    
+
 
 class Journey(models.Model):
     vehicle = models.ForeignKey(Vehicle, on_delete=models.PROTECT)
@@ -42,3 +44,8 @@ class Journey(models.Model):
 
     def __str__(self) -> str:
         return f"{self.vehicle.name} ({self.start} - {self.end})"
+
+
+def validate_number_plate(plate) -> bool:
+    r = re.compile('[A-Z]{2}-[0-9]{2}-[0-9]{2}')
+    return r.match(plate)
