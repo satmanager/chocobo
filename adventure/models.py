@@ -1,6 +1,6 @@
 from django.db import models
 import re #Import for vehicle number_plate validation
-
+import datetime #Import datetime to validate Journey.end
 # Create your models here.
 
 
@@ -44,8 +44,11 @@ class Journey(models.Model):
 
     def __str__(self) -> str:
         return f"{self.vehicle.name} ({self.start} - {self.end})"
+    
+    def is_finished(self):
+        return not self.end is None
 
-
+#Number Plate Validation
 def validate_number_plate(plate) -> bool:
     r = re.compile('[A-Z]{2}-[0-9]{2}-[0-9]{2}')
     return r.match(plate)
