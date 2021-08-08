@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from .notifiers import Notifier
+from .notifiers import Notifier, stopNotifier
 from .repositories import JourneyRepository
 
 
@@ -27,7 +27,7 @@ class StartJourney:
         pass
 
 class StopJourney:
-    def __init__(self, repository: JourneyRepository, notifier: Notifier):
+    def __init__(self, repository: JourneyRepository, notifier: stopNotifier):
         self.repository = repository
         self.notifier = notifier
 
@@ -37,3 +37,6 @@ class StopJourney:
 
     def execute(self) -> None:
         return self.repository.stop_journey(self.journey)
+
+    class CantStop(Exception):
+        pass

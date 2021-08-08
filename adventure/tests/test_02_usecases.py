@@ -63,7 +63,7 @@ class TestStopJourney:
         # it takes a started journey as a parameter and sets an "end" value
         # then saves it to the database
         repo = usecases.JourneyRepository()
-        notifier = usecases.Notifier()
+        notifier = usecases.stopNotifier()
         data = {"name": "Eddie", "passengers": 2}
         startUsecase = usecases.StartJourney(repo, notifier).set_params(data)
         bJourney = startUsecase.execute()        

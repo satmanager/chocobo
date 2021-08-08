@@ -12,3 +12,13 @@ class Notifier:
             ["to@example.com"],
             fail_silently=False,
         )
+
+class stopNotifier:
+    def send_notifications(self, journey: Journey) -> None:
+        mail.send_mail(
+            "Subject here",
+            f"Journey stop: {journey.end}",
+            "from@example.com",
+            ["to@example.com"],
+            fail_silently=False,
+        )
